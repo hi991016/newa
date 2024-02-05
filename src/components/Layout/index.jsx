@@ -6,7 +6,7 @@ import RoutesApp from 'src/routes/Routes'
 
 /* ------------------------------- components ------------------------------- */
 import Header from 'src/components/Header'
-// import Footer from 'src/components/Footer'
+import Footer from 'src/components/Footer'
 
 const Layout = () => {
   return (
@@ -16,7 +16,7 @@ const Layout = () => {
         <main>
           <RoutesApp />
         </main>
-        {/* <Footer /> */}
+        <Footer />
       </div>
     </BrowserRouter>
   )

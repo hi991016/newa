@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 
 /* ---------------------------------- gsap ---------------------------------- */
 import { gsap } from 'gsap'
@@ -6,9 +7,6 @@ import { ScrollTrigger, ScrollToPlugin } from 'gsap/all'
 
 /* --------------------------------- section -------------------------------- */
 import { FirstView, Intro, Projects, Philosophy, Company } from './Section'
-
-/* ------------------------------- components ------------------------------- */
-import Footer from 'src/components/Footer'
 
 import './Home.scss'
 
@@ -198,6 +196,7 @@ const HomePage = () => {
 
   useEffect(() => {
     const fullpageScroll = document.querySelector('.fullpage')
+
     const onScroll = (e) => {
       if (e.currentTarget.scrollTop > refNormal.current.offsetTop) {
         fullpageScroll.classList.add('snap-scroll')
@@ -222,7 +221,7 @@ const HomePage = () => {
         })
       }
 
-      if (e.currentTarget.scrollTop === refProjects.current.offsetTop) {
+      if (Math.round(e.currentTarget.scrollTop) === refProjects.current.offsetTop) {
         fullpageScroll.style.setProperty('scroll-snap-type', '')
 
         refScroll.current.classList.add('fade')
@@ -267,7 +266,16 @@ const HomePage = () => {
         <section className='vertical-scrolling vertical-normal' ref={refNormal}>
           <Philosophy />
           <Company />
-          <Footer />
+
+          <div className='c-footer'>
+            <Link to='https://instagram.com/anew__inc/' target='_blank' className='c-footer__left'>
+              INSTAGRAM
+            </Link>
+            <Link to='https://www.websitecarbon.com/' target='_blank' className='c-footer__center'>
+              * This website emits 0.03g of CO2 per view.
+            </Link>
+            <p className='c-footer__right'>©︎ {new Date().getFullYear()} anew inc.</p>
+          </div>
         </section>
       </div>
     </>
