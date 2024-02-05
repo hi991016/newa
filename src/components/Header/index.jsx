@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import './Header.scss'
 
 const Header = () => {
+  // const { pathname } = useLocation()
   const toggleRef = useRef(null)
   const [checked, setChecked] = useState(true)
   const [openMenu, setOpenMenu] = useState(false)
@@ -91,15 +92,9 @@ const Header = () => {
         </Link>
 
         <div className='c-header__center'>
-          <a href='#projects' className='anchor anchor-projects'>
-            projects,
-          </a>
-          <a href='#philosophy' className='anchor'>
-            philosophy,
-          </a>
-          <a href='#company' className='anchor'>
-            company
-          </a>
+          <a href='#projects'>projects,</a>
+          <a href='#philosophy'>philosophy,</a>
+          <a href='#company'>company</a>
         </div>
 
         <div className='c-header__right'>
@@ -122,7 +117,6 @@ const Header = () => {
         <div className='top'>
           <a
             href='/#projects'
-            className='anchor anchor-projects'
             onClick={() => {
               toggleMenu()
             }}
@@ -131,7 +125,6 @@ const Header = () => {
           </a>
           <a
             href='/#philosophy'
-            className='anchor'
             onClick={() => {
               toggleMenu()
             }}
@@ -140,7 +133,6 @@ const Header = () => {
           </a>
           <a
             href='/#company'
-            className='anchor'
             onClick={() => {
               toggleMenu()
             }}
@@ -156,7 +148,7 @@ const Header = () => {
           <Link to='https://www.websitecarbon.com/' target='_blank' className='carbon'>
             * This website emits 0.03g of CO2 per view.
           </Link>
-          <p>©︎ {new Date().getFullYear()} anew inc.</p>
+          <p>©︎ 2024 anew inc.</p>
         </div>
       </div>
     </>

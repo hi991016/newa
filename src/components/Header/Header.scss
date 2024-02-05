@@ -70,7 +70,7 @@
       cursor: pointer;
       position: relative;
       width: 40px;
-      height: 19px;
+      height: 18px;
       box-shadow: 0 0 0 1px var(--main-text-cl);
       appearance: none;
       -webkit-appearance: none;
@@ -82,7 +82,6 @@
       transition-timing-function: ease-in, cubic-bezier(0.6, 0.2, 0.4, 1.5), linear;
 
       margin: -1px;
-      margin-top: 0;
 
       &:before {
         display: block;
@@ -135,7 +134,7 @@
         }
 
         &:checked:before {
-          transform: translateX(13px);
+          transform: translateX(14px);
         }
       }
     }

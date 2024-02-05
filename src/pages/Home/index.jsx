@@ -1,5 +1,4 @@
 import React, { useRef, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 
 /* ---------------------------------- gsap ---------------------------------- */
 import { gsap } from 'gsap'
@@ -11,7 +10,6 @@ import { FirstView, Intro, Projects, Philosophy, Company } from './Section'
 import './Home.scss'
 
 const HomePage = () => {
-  const refIntro = useRef(null)
   const refProjects = useRef(null)
   const refNormal = useRef(null)
   const refScroll = useRef(null)
@@ -20,14 +18,35 @@ const HomePage = () => {
     let mm = gsap.matchMedia(),
       breakPoint = 1024
 
-    gsap.registerPlugin(ScrollTrigger)
-    gsap.registerPlugin(ScrollToPlugin)
-    ScrollTrigger.defaults({
-      toggleActions: 'restart pause resume pause',
-      scroller: '.fullpage'
-    })
+    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
+    ScrollTrigger.config({ limitCallbacks: true })
 
-    // timeline
+    const sections = document.querySelectorAll('.vertical-scrolling')
+
+    // this scrolling object just allows us to conveniently call scrolling.enable(), scrolling.disable(), and check if scrolling.enabled is true.
+    // some browsers (like iOS Safari) handle scrolling on a separate thread and can cause things to get out of sync (jitter/jumpy), so when we're animating the scroll position, force an update of GSAP tweens when there's a scroll event in order to maintain synchronization)
+    const scrolling = {
+      enabled: true,
+      events: 'scroll,wheel,touchmove,pointermove'.split(','),
+      prevent: (e) => e.preventDefault(),
+      disable() {
+        if (scrolling.enabled) {
+          scrolling.enabled = false
+          window.addEventListener('scroll', gsap.ticker.tick, { passive: true })
+          scrolling.events.forEach((e, i) =>
+            (i ? document : window).addEventListener(e, scrolling.prevent, { passive: false })
+          )
+        }
+      },
+      enable() {
+        if (!scrolling.enabled) {
+          scrolling.enabled = true
+          window.removeEventListener('scroll', gsap.ticker.tick)
+          scrolling.events.forEach((e, i) => (i ? document : window).removeEventListener(e, scrolling.prevent))
+        }
+      }
+    }
+
     const loadFirstView = gsap.timeline({
       paused: 'true',
       defaults: { duration: 0.5 },
@@ -44,6 +63,7 @@ const HomePage = () => {
         toggleActions: 'play none none reset'
       }
     })
+
     mm.add(
       {
         // set up any number of arbitrarily-named conditions. The function below will be called when ANY of them match.
@@ -106,23 +126,7 @@ const HomePage = () => {
       }
     )
 
-    const fullpage = document.querySelector('.fullpage')
-    const scrollSnap = document.querySelectorAll('.scroll-snap')
-
-    // action sections
-    const sections = document.querySelectorAll('.vertical-scrolling')
-    sections.forEach((section, i) => {
-      ScrollTrigger.create({
-        trigger: section,
-        start: 'top bottom-=1',
-        end: 'bottom top+=1',
-        onEnter: () => goToSection(section, i),
-        onEnterBack: () => goToSection(section, i)
-      })
-    })
-    const goToSection = (section, i) => {
-      fullpage.classList.remove('snap-scroll')
-
+    const intoAnimation = (section, i) => {
       if (i === 0) {
         refScroll.current.classList.remove('fade')
       }
@@ -162,120 +166,121 @@ const HomePage = () => {
           duration: 0.3
         })
 
+        refScroll.current.classList.remove('fade')
         setTimeout(() => {
           refNormal.current.classList.add('fade')
-          // fullpage.classList.add('snap-scroll')
         }, 500)
-        refScroll.current.classList.remove('fade')
       } else {
-        fullpage.classList.remove('snap-scroll')
+        refNormal.current.classList.remove('fade')
       }
     }
 
-    // smooth scroll snap
-    scrollSnap.forEach((scroll, i) => {
-      scroll.addEventListener('wheel', function (event) {
-        if (event.deltaY === 100 || event.deltaY === -100) {
-          event.preventDefault()
-          fullpage.scrollBy({
-            top: event.deltaY,
-            behavior: 'smooth'
-          })
-        }
+    const goToSection = (section, i) => {
+      if (scrolling.enabled) {
+        // skip if a scroll tween is in progress
+        scrolling.disable()
+        gsap.to(window, {
+          scrollTo: { y: section, autoKill: false },
+          onComplete: scrolling.enable,
+          duration: 0.7,
+          onEnter: () => intoAnimation(section, i)
+        })
+
+        // anim && anim.restart()
+      }
+    }
+
+    sections.forEach((section, i) => {
+      ScrollTrigger.create({
+        trigger: section,
+        start: 'top bottom-=1',
+        end: 'bottom top+=1',
+        onEnter: () => goToSection(section, i),
+        onEnterBack: () => goToSection(section, i)
       })
     })
 
-    // anchor section projects click
-    let links = document.querySelectorAll('.anchor-projects')
-    links.forEach((anchor, i) => {
-      anchor.addEventListener('click', (e) => {
-        fullpage.style.setProperty('scroll-snap-type', 'none')
+    // anchor section click
+    let links = gsap.utils.toArray('.c-header__center a')
+    links.forEach((a) => {
+      let element = document.querySelector(a.getAttribute('href')),
+        linkST = ScrollTrigger.create({
+          trigger: element,
+          start: 'top top'
+        })
+      ScrollTrigger.create({
+        trigger: element,
+        start: 'top center',
+        end: 'bottom center'
+      })
+
+      a.addEventListener('click', (e) => {
+        e.preventDefault()
+        if (scrolling.enabled) {
+          scrolling.disable()
+          gsap.to(window, {
+            duration: 1,
+            scrollTo: linkST.start,
+            overwrite: 'auto',
+            onComplete: scrolling.enable
+          })
+        }
       })
     })
   }, [])
 
   useEffect(() => {
-    const fullpageScroll = document.querySelector('.fullpage')
+    const onScroll = () => {
+      if (window.scrollY === refProjects.current.offsetTop) {
+        refScroll.current.classList.add('fade')
 
-    const onScroll = (e) => {
-      if (e.currentTarget.scrollTop > refNormal.current.offsetTop) {
-        fullpageScroll.classList.add('snap-scroll')
-      } else if (e.currentTarget.scrollTop === refNormal.current.offsetTop) {
-        fullpageScroll.classList.remove('snap-scroll')
-      }
-
-      if (e.currentTarget.scrollTop >= refNormal.current.offsetTop) {
+        gsap.to('.intro', {
+          opacity: 0,
+          duration: 0.5
+        })
+        gsap.to('.projects__title', {
+          opacity: 1,
+          delay: 0.5,
+          duration: 0.5
+        })
+      } else if (window.scrollY >= refNormal.current.offsetTop) {
         refScroll.current.classList.remove('fade')
         gsap.to('.projects__title', {
           opacity: 0,
           duration: 0.3
         })
+
         refNormal.current.classList.add('fade')
-      }
-
-      if (e.currentTarget.scrollTop === refIntro.current.offsetTop) {
-        gsap.to('.intro', {
-          opacity: 1,
-          delay: 0.5,
-          duration: 0.5
-        })
-      }
-
-      if (Math.round(e.currentTarget.scrollTop) === refProjects.current.offsetTop) {
-        fullpageScroll.style.setProperty('scroll-snap-type', '')
-
-        refScroll.current.classList.add('fade')
-        gsap.to('.intro', {
-          opacity: 0,
-          duration: 0.5
-        })
-        gsap.to('.projects__title', {
-          opacity: 1,
-          delay: 0.5,
-          duration: 0.5
-        })
       }
     }
     // clean up code
-    fullpageScroll.removeEventListener('scroll', onScroll)
-    fullpageScroll.addEventListener('scroll', onScroll, { passive: true })
-    return () => fullpageScroll.removeEventListener('scroll', onScroll)
+    window.removeEventListener('scroll', onScroll)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   return (
     <>
-      <div className='fullpage'>
-        <div className='c-scroll' ref={refScroll}>
-          <div className='line'>
-            <span></span>
-          </div>
+      <div className='c-scroll' ref={refScroll}>
+        <div className='line'>
+          <span></span>
         </div>
+      </div>
 
-        <section className='vertical-scrolling scroll-snap vertical-firstview'>
+      <div className='fullpage'>
+        <section className='vertical-scrolling vertical-firstview'>
           <FirstView />
         </section>
-
-        <section className='vertical-scrolling scroll-snap vertical-intro' ref={refIntro}>
+        <section className='vertical-scrolling vertical-intro'>
           <Intro />
         </section>
-
-        <section className='vertical-scrolling scroll-snap vertical-projects' ref={refProjects}>
+        <section className='vertical-scrolling vertical-projects' ref={refProjects}>
           <Projects />
         </section>
 
         <section className='vertical-scrolling vertical-normal' ref={refNormal}>
           <Philosophy />
           <Company />
-
-          <div className='c-footer'>
-            <Link to='https://instagram.com/anew__inc/' target='_blank' className='c-footer__left'>
-              INSTAGRAM
-            </Link>
-            <Link to='https://www.websitecarbon.com/' target='_blank' className='c-footer__center'>
-              * This website emits 0.03g of CO2 per view.
-            </Link>
-            <p className='c-footer__right'>©︎ {new Date().getFullYear()} anew inc.</p>
-          </div>
         </section>
       </div>
     </>

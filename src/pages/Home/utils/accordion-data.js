@@ -22,9 +22,9 @@ export const data = [
     subtitleEn: 'Yusuke Osawa',
     subtitleJp: '⼤澤 佑介',
     textEn:
-      'Born 1979 in Osaka. Joined anew inc. in 2023 while he has dedicated to editing and project management at a creative production RCKT/Rocket company*. He has managed lots of brand visuals production, corporate contents and more. He also handles editing lots of books and magazines such as a lifestyle book "BEAMS AT HOME(sold over 370K books all over the world)" and visual books published by Rizzoli.',
+      'Born 1979 in Osaka. Joined anew inc. in 2023 while he has dedicated to editing and project management at a creative production RCKT/Rocket company*. He has managed lots of brand visuals production, companiesʼ MVV, interior decoration of malls and art events. He also handles editing lots of books and magazines such as a lifestyle book "BEAMS AT HOME(sold over 370K books all over the world)" and visual books published by Rizzoli.',
     textJp:
-      '1979年大阪府出身。 クリエイティブプロダクションRCKT/Rocket Company*に在籍しながらanew inc.に参画。 RCKTでは編集、企画進行として、ブランドビジュアルや企業向けコンテンツ制作を中心に活動。 また、世界累計37万部のライフスタイル書籍『BEAMS AT HOME』やNYの出版社Rizzoli社から発行されるビジュアルブックなどの編集制作も手がける。'
+      '1979年大阪出身。 クリエイティブプロダクションRCKT/Rocket Company*に在籍しながらanew inc.に参画。 RCKTでは編集制作、企画進行として、ブランドビジュアル制作を中心に、企業のMVV資料、商業施設の館内装飾やアートイベントも担当。 また、世界累計37万部のライフスタイル書籍『BEAMS AT HOME』やNYの出版社Rizzoli社から発行されるビジュアルブックなど、書籍・雑誌の編集制作も手がける。'
   },
   {
     title: 'Creative Director',
@@ -33,6 +33,6 @@ export const data = [
     textEn:
       'Born 1986 in Hokkaido. At the design studio in Tokyo, dedicated to designing and branding as an art director/designer. Since 2022, he has started his own project Studio 1014. Currently, he manages branding and website design in lifestyle fields(daily goods, food, interior, crafts) and also takes part in art projects.',
     textJp:
-      '1986年北海道出身。 都内のデザインスタジオにて、アートディレクター/デザイナーとして主にブランディングやデザイン業務に従事。 2022年よりStudio1014名義で活動を開始。 現在は、主に生活雑貨・食・インテリア・クラフトなどのライフスタイル領域にてブランディング・ウェブサイトデザインを手がけるほか、アートプロジェクトにも携わる。'
+      '1986年北海道出身。 都内のデザインスタジオにて、アートディレクター/デザイナーとして主にブランディングやデザイン業務に従事。 2022年よりStudio1014名義で活動を開始。 現在は、主に生活雑貨・食・インテリア・クラフトなどのライフスタイル領域にてブランディング・ウェブサイトデザインを手掛けるほか、アートプロジェクトにも携わる。'
   }
 ]
