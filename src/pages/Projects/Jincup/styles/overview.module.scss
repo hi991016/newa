@@ -16,7 +16,7 @@
 
   @include maxW(1023px) {
     display: block;
-    padding: 120px 16.908212560386% 120px 5.3140096618357%;
+    padding: 120px 16.908212560386% 120px 22px;
   }
 }
 
@@ -32,7 +32,7 @@
 .overviewRight {
   flex: 1;
   position: sticky;
-  top: 150px;
+  top: 125px;
   right: 0;
   height: calc(100vh - 10.204081632653%);
 
@@ -40,6 +40,7 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
+    opacity: 0.7;
   }
 
   @include maxW(1023px) {
@@ -64,21 +65,31 @@
     p {
       margin-top: 20px;
       font-size: 2.6rem;
-      line-height: 1.33;
-      letter-spacing: -0.8px;
+      line-height: 1.4;
+      letter-spacing: -0.2px;
+      text-align: justify;
+      margin-left: -2px;
     }
   }
 
   .desc {
     p {
       font-size: 1.6rem;
-      letter-spacing: -0.64px;
-      line-height: 1.54;
+      letter-spacing: -0.2px;
+      text-align: justify;
+      line-height: 1.8;
+      word-wrap: break-word;
+
+      a {
+        display: inline;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
     }
   }
 
   @include maxW(1023px) {
-    margin-bottom: 125px;
+    margin-bottom: 80px;
 
     .head {
       margin-bottom: 40px;
@@ -90,15 +101,15 @@
       p {
         margin-top: 10px;
         font-size: 2rem;
-        line-height: 1.55;
+        line-height: 1.4;
+        margin-left: -1px;
       }
     }
 
     .desc {
       p {
         font-size: 1.4rem;
-        letter-spacing: -0.56px;
-        line-height: 1.59;
+        line-height: 1.75;
       }
     }
   }
@@ -123,22 +134,24 @@
 
       p {
         font-size: 1.4rem;
-        letter-spacing: -0.56px;
+        letter-spacing: -0.2px;
+        text-align: justify;
       }
     }
 
     .desc {
       font-size: 1.4rem;
-      line-height: 1.59;
-      letter-spacing: -0.56px;
+      line-height: 1.8;
+      letter-spacing: -0.2px;
+      text-align: justify;
     }
 
     .link {
-      margin-top: 50px;
+      margin-top: 25px;
 
       a {
         font-size: 1.4rem;
-        line-height: 1.89;
+        line-height: 1.8;
         text-decoration: underline;
         text-underline-offset: 2px;
       }
@@ -151,6 +164,7 @@
 
       .title {
         margin-bottom: 25px;
+        gap: 15px;
 
         h2 {
           font-size: 1.6rem;
@@ -158,22 +172,20 @@
 
         p {
           font-size: 1.2rem;
-          letter-spacing: -0.48px;
         }
       }
 
       .desc {
         font-size: 1.3rem;
-        letter-spacing: -0.52px;
-        line-height: 1.55;
+        line-height: 1.75;
       }
 
       .link {
-        margin-top: 40px;
+        margin-top: 20px;
 
         a {
           font-size: 1.3rem;
-          line-height: 1.81;
+          line-height: 1.75;
           text-underline-offset: 1px;
         }
       }

@@ -1,8 +1,15 @@
 @import 'src/styles/imports/mixins';
 
+.prototype {
+  @include maxW(1023px) {
+    margin-top: -75px;
+    padding-top: 75px;
+  }
+}
+
 .prototypeContent {
   width: 100%;
-  margin: 150px auto 95px;
+  margin: 150px auto 60px;
 
   display: flex;
   align-items: center;
@@ -23,8 +30,6 @@
     padding-left: 16.666666666667%;
 
     .logo svg {
-      margin-top: 1px;
-
       rect,
       path {
         fill: currentColor;
@@ -41,7 +46,7 @@
 
   @include maxW(1023px) {
     display: block;
-    padding: 0 16.9082125604% 0 5.3140096618%;
+    padding: 0 16.9082125604% 0 22px;
     margin: 45px auto;
 
     .left,
@@ -51,7 +56,7 @@
     }
 
     .left {
-      margin-top: 100px;
+      margin-top: 80px;
 
       .logo svg {
         width: auto;
@@ -78,11 +83,15 @@
   }
 
   @include maxW(1023px) {
-    bottom: 20px;
-    padding: 0 60px 0 22px;
+    position: unset;
+    padding: 0;
 
     h2 {
       font-size: 2.4rem;
+      position: absolute;
+      top: 20px;
+      left: 22px;
+      z-index: 2;
     }
   }
 }
@@ -101,8 +110,11 @@
   }
 
   p {
-    margin-top: 10px;
+    margin-top: 15px;
+    margin-left: -1px;
     font-size: 1.8rem;
+    letter-spacing: -0.2px;
+    text-align: justify;
   }
 
   @include maxW(1023px) {
@@ -115,6 +127,7 @@
     }
 
     p {
+      margin-top: 10px;
       font-size: 1.4rem;
     }
   }
@@ -125,11 +138,13 @@
 
   p {
     font-size: 1.5rem;
-    letter-spacing: -0.6px;
-    line-height: 1.73;
-    margin-bottom: 55px;
+    letter-spacing: -0.2px;
+    text-align: justify;
+    line-height: 1.8;
+    margin-bottom: 25px;
 
     &:last-child {
+      margin-top: 50px;
       margin-bottom: initial;
     }
   }
@@ -140,8 +155,7 @@
     p {
       font-size: 1.3rem;
       line-height: 1.75;
-      letter-spacing: -0.52px;
-      margin-bottom: 35px;
+      margin-bottom: 20px;
     }
   }
 }
@@ -150,7 +164,7 @@
   display: flex;
   align-items: center;
   gap: 28px;
-  margin-top: 20px;
+  margin-top: 15px;
 
   a:hover {
     opacity: 1;
@@ -162,24 +176,24 @@
 
     a:first-child svg {
       width: auto;
-      height: 23px;
+      height: 20px;
     }
 
     a:nth-child(2) svg {
       width: auto;
-      height: 25px;
+      height: 20px;
     }
 
     a:last-child svg {
       width: auto;
-      height: 21.49px;
+      height: 18px;
     }
   }
 }
 
 .prototypeSwiper {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(1, 1fr);
   height: 100vh;
   position: relative;
 
@@ -190,26 +204,8 @@
   }
 }
 
-.prototypeSwiperWrapper {
-  height: 100%;
-}
-
-.prototypePagination {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-
-  .bullet {
-    opacity: 0.5;
-    cursor: pointer;
-    font-size: 2.4rem;
-    transition: 0.3s linear;
-    background: transparent;
-  }
-
-  .bulletActive {
-    opacity: 1;
-  }
+.prototypeSwiperSP {
+  position: relative;
 }
 
 .prototypeTotal {
@@ -217,27 +213,16 @@
   align-items: center;
   gap: 10px;
 
+  position: absolute;
+  bottom: 20px;
+  left: 22px;
+  z-index: 2;
+
   span {
     font-size: 1.6rem;
   }
 
   .bullet {
     display: none;
-  }
-}
-
-.prototypeSwiperSP {
-  position: relative;
-}
-
-.prototypeSlide {
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  @include maxW(1023px) {
-    aspect-ratio: 3 / 4;
   }
 }
