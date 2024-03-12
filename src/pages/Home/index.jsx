@@ -230,10 +230,6 @@ const HomePage = () => {
 
   return (
     <>
-      {/* <MetaTags>
-        <title>anew inc. ｜ アニュウインク</title>
-      </MetaTags> */}
-
       <HelmetProvider>
         <Helmet>
           <meta name='title' content='anew inc. ｜ アニュウインク' />
