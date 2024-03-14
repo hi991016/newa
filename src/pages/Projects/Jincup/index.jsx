@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 
 /* -------------------------------- component ------------------------------- */
@@ -88,7 +87,7 @@ const JincupPage = () => {
             content='未来のジンカップを考える。jincup anewは、土壌に埋めると約3ヶ月で分解されて土に還るジンカップのプロトタイプです。横河バイオフロンティアが取り扱うVASUジャパンの生分解性プラスチック原料をニッシリにてブロック状に成形し、鹿児島に届けてアキヒロジンが手彫りするというプロセスで生まれました。'
           />
           <meta name='twitter:image:src' content='https://anew-inc.com/ogp_jincup.jpg' />
-          
+
           <title>jincup anew ｜ PROJECTS ｜ anew inc.</title>
         </Helmet>
 
