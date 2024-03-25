@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react'
+import { Helmet, HelmetProvider } from 'react-helmet-async'
 
 /* ---------------------------------- gsap ---------------------------------- */
 import { gsap } from 'gsap'
@@ -17,11 +18,14 @@ const HomePage = () => {
   const refIntro = useRef(null)
   const refProjects = useRef(null)
   const refNormal = useRef(null)
-  const refScroll = useRef(null)
   const refFullpage = useRef(null)
 
   useEffect(() => {
+    document.body.style.overflow = 'hidden'
+
     const scrollSnap = document.querySelectorAll('.homepage .scroll-snap')
+    const refScroll = document.getElementById('refScroll')
+
     let mm = gsap.matchMedia(),
       breakPoint = 1024
 
@@ -80,7 +84,7 @@ const HomePage = () => {
             .to('.homepage .intro__right', {
               opacity: 1,
               onComplete: () => {
-                refScroll.current.classList.add('fade')
+                refScroll.classList.add('fade')
               }
             })
         } else {
@@ -97,7 +101,7 @@ const HomePage = () => {
             .to('.homepage .intro__right', {
               opacity: 1,
               onComplete: () => {
-                refScroll.current.classList.add('fade')
+                refScroll.classList.add('fade')
               }
             })
         }
@@ -122,7 +126,7 @@ const HomePage = () => {
 
       switch (index) {
         case 0:
-          refScroll.current.classList.remove('fade')
+          refScroll.classList.remove('fade')
 
           gsap.to('.homepage .intro__left, .homepage .intro__right, .homepage .projects', {
             opacity: 0,
@@ -144,7 +148,7 @@ const HomePage = () => {
           })
           break
         case 2:
-          refScroll.current.classList.add('fade')
+          refScroll.classList.add('fade')
 
           gsap.to('.homepage .intro', {
             opacity: 0,
@@ -157,7 +161,7 @@ const HomePage = () => {
           })
           break
         case 3:
-          refScroll.current.classList.remove('fade')
+          refScroll.classList.remove('fade')
           refNormal.current.classList.add('fade')
 
           gsap.to('#projects', {
@@ -224,34 +228,85 @@ const HomePage = () => {
     return () => fullpage.removeEventListener('scroll', onScroll)
   }, [])
 
+  useEffect(() => {
+    let observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(function (entry) {
+        if (entry.intersectionRatio > 0 || entry.isIntersecting) {
+          const image = entry.target
+          observer.unobserve(image)
+          const sourceUrl = image.getAttribute('data-src')
+          image.setAttribute('src', sourceUrl)
+          image.onload = () => {
+            image.classList.add('loaded')
+          }
+          observer.unobserve(image)
+        }
+      })
+    })
+
+    document.querySelectorAll('img').forEach((el) => {
+      observer.observe(el)
+    })
+  }, [])
+
   return (
     <>
-      <Header />
-      <div className='homepage fullpage' id='homepage' ref={refFullpage}>
-        <div className='c-scroll' ref={refScroll}>
-          <div className='line'>
-            <span></span>
+      <HelmetProvider>
+        <Helmet>
+          <meta name='title' content='anew inc. ｜ アニュウインク' />
+          <meta
+            name='description'
+            content='anew inc.はプロダクトサステナビリティの観点から「私たちはいかにしてよき祖先となれるか」というグッドアンセスターとしての可能性を追求するプロジェクトチームです。'
+          />
+
+          <meta property='og:url' content='https://anew-inc.com' />
+          <meta property='og:title' content='anew inc. ｜ アニュウインク' />
+          <meta property='og:site_name' content='anew inc. ｜ アニュウインク' />
+          <meta
+            property='og:description'
+            content='anew inc.はプロダクトサステナビリティの観点から「私たちはいかにしてよき祖先となれるか」というグッドアンセスターとしての可能性を追求するプロジェクトチームです。'
+          />
+          <meta property='og:image' content='https://anew-inc.com/ogp.jpg' />
+
+          <meta name='twitter:card' content='summary_large_image' />
+          <meta name='twitter:site' content='anew inc. ｜ アニュウインク' />
+          <meta name='twitter:title' content='anew inc. ｜ アニュウインク' />
+          <meta
+            name='twitter:description'
+            content='anew inc.はプロダクトサステナビリティの観点から「私たちはいかにしてよき祖先となれるか」というグッドアンセスターとしての可能性を追求するプロジェクトチームです。'
+          />
+          <meta name='twitter:image:src' content='https://anew-inc.com/ogp.jpg' />
+
+          <title>anew inc. ｜ アニュウインク</title>
+        </Helmet>
+
+        <Header />
+        <div className='homepage fullpage' id='homepage' ref={refFullpage}>
+          <div className='c-scroll' id='refScroll'>
+            <div className='line'>
+              <span></span>
+            </div>
           </div>
+
+          <section className='vertical-scrolling scroll-snap vertical-firstview'>
+            <FirstView />
+          </section>
+
+          <section className='vertical-scrolling scroll-snap vertical-intro' ref={refIntro}>
+            <Intro />
+          </section>
+
+          <section className='vertical-scrolling scroll-snap vertical-projects' ref={refProjects}>
+            <Projects />
+          </section>
+
+          <section className='vertical-scrolling vertical-normal' ref={refNormal}>
+            <Philosophy />
+            <Company />
+            <Footer />
+          </section>
         </div>
-
-        <section className='vertical-scrolling scroll-snap vertical-firstview'>
-          <FirstView />
-        </section>
-
-        <section className='vertical-scrolling scroll-snap vertical-intro' ref={refIntro}>
-          <Intro />
-        </section>
-
-        <section className='vertical-scrolling scroll-snap vertical-projects' ref={refProjects}>
-          <Projects />
-        </section>
-
-        <section className='vertical-scrolling vertical-normal' ref={refNormal}>
-          <Philosophy />
-          <Company />
-          <Footer />
-        </section>
-      </div>
+      </HelmetProvider>
     </>
   )
 }
